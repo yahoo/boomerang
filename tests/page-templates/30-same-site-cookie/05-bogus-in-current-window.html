@@ -1,0 +1,11 @@
+<%= header %>
+<%= boomerangScript %>
+<script src="05-bogus-in-current-window.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: 1,
+	site_domain: document.domain,
+	same_site_cookie: "Bogus - not valid option"
+});
+</script>
+<%= footer %>

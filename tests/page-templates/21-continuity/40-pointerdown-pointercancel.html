@@ -1,0 +1,37 @@
+<%= header %>
+<%= boomerangScript %>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: true,
+	Continuity: {
+		enabled: true
+	}
+});
+</script>
+<script src="40-pointerdown-pointercancel.js" type="text/javascript"></script>
+<script>
+	// fire pointerdown, followed by pointercancel and then pointerup event.
+	// The pointercancel event should disable and prevent pointerup event handler
+	// from doing anything.
+	
+	// fire pointerdown event
+	var pd = document.createEvent("Event");
+	pd.initEvent("pointerdown", true, true);
+	window.dispatchEvent(pd);
+
+	// followed by pointercancel event in 30ms
+	var pc = document.createEvent("Event");
+	pc.initEvent("pointercancel", true, true);
+	setTimeout(function(){
+		window.dispatchEvent(pc);
+	}, 30);
+
+	// followed by pointerup event in 50ms
+	var pu = document.createEvent("Event");
+	pu.initEvent("pointerup", true, true);
+	setTimeout(function(){
+		window.dispatchEvent(pu);
+	}, 50);
+
+</script>
+<%= footer %>

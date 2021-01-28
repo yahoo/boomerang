@@ -1,0 +1,23 @@
+<%= header %>
+<script>
+window.sentViaSendBeacon = false;
+if (window.navigator && typeof window.navigator.sendBeacon === "function") {
+	window.supportNativeSendBeacon = true;
+
+	window.navigator.sendBeacon = function(url, data) {
+		"[native code]";
+		// ^ fool ourselves
+
+		window.sentViaSendBeacon = true;
+	};
+}
+</script>
+<%= boomerangSnippet %>
+<script src="08-sendbeacon-disabled.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: true,
+	beacon_disable_sendbeacon: true
+});
+</script>
+<%= footer %>

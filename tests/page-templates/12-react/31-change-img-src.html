@@ -1,0 +1,84 @@
+<%= header %>
+<!--
+Same as 04-route-change but adds img nodes and then chages the src attributes.
+Unlike `node.src=""`, `node.removeAttribute("src")` does not fire an "onerror" event (in Chrome 77, FF 67, Safari 13, Edge 17).
+-->
+<%= boomerangScript %>
+<script src="support/function-bind-polyfill.js" type="text/javascript"></script>
+
+<base href="/pages/12-react/31-change-img-src.html" />
+
+<script type="text/javascript">
+window.imgs = [3000];
+window.html5_mode = true;
+
+// view a widget then come back so debugging (F5) is easier
+window.nav_routes = ["/widgets/1", "/"];
+
+// disable the hook and use window.history (via auto:true)
+window.disableBoomerangHook = true;
+</script>
+
+<div id="root"></div>
+
+<script type="text/javascript">
+BOOMR_test.init({
+	testAfterOnBeacon: 3,
+	afterFirstBeacon: function()  {
+		// call during the first spa soft nav
+		BOOMR.subscribe("spa_init", function() {
+			setTimeout(function() {
+				var root = document.querySelector("#root");
+				var el1 = document.createElement("img"),
+				    el2 = document.createElement("img"),
+				    el3 = document.createElement("img"),
+				    el4 = document.createElement("img");
+
+				el1.alt = "test-img1";
+				el1.src = "/delay?delay=200&id=el1&file=/assets/img.jpg&rnd=" + Math.random();
+				root.appendChild(el1);
+
+				el2.alt = "test-img2";
+				el2.src = "/delay?delay=200&id=el2&file=/assets/img.jpg&rnd=" + Math.random();
+				root.appendChild(el2);
+
+				el3.alt = "test-img3";
+				el3.src = "/delay?delay=200&id=el3a&file=/assets/img.jpg&rnd=" + Math.random();
+				root.appendChild(el3);
+
+				el4.alt = "test-img4";
+				el4.src = "/delay?delay=200&id=el4&file=/assets/img.jpg&rnd=" + Math.random();
+				root.appendChild(el4);
+
+				// autoxhr mutation observer will fire before this timeout and wait for the node.
+				setTimeout(function() {
+					// remove src attribute, will not fire a "load" or "error" event for the node.
+					el1.removeAttribute("src");
+
+					// blanking src normally fires an "onerror" for cancelled resource but our MO
+					// will handle it before that happens
+					el2.src = "";
+
+					// change src
+					el3.src = "/delay?delay=200&id=el3b&file=/assets/img.jpg&rnd=" + Math.random();
+
+					// re-assign src, should not fire a MO event
+					el4.src = el4.src + "";
+				}, 0);
+			}, 1000);
+		}, null, null, true);
+	},
+	History: {
+		enabled: true,
+		auto: true
+	},
+	autorun: false,
+	instrument_xhr: true
+});
+</script>
+
+<script src="support/app.js"></script>
+<script src="/test-templates/spa/04-route-change.js" type="text/javascript"></script>
+<script src="31-remove-img-src.js" type="text/javascript"></script>
+
+<%= footer %>

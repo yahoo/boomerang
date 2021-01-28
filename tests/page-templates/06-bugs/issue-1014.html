@@ -1,0 +1,17 @@
+<%= header %>
+<%= boomerangSnippet %>
+<script src="issue-1014.js" type="text/javascript"></script>
+<script>
+delete window.performance.getEntriesByName;
+
+window.performance.getEntriesByName = function() {
+	var e = new Error();
+	e.name = "NS_ERROR_FAILURE";
+	throw e;
+};
+
+BOOMR_test.init({
+	testAfterOnBeacon: true
+});
+</script>
+<%= footer %>

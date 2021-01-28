@@ -1,0 +1,20 @@
+<%= header %>
+<script>
+/*eslint-disable no-unused-vars*/
+window.BOOMR_CONSENT_CONFIG = {
+	enabled: true
+};
+</script>
+<%= consentInlinePlugin %>
+<%= boomerangScript %>
+<script src="00-opt-out-remove-default-rt-cookie.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: 1,
+	site_domain: document.domain,
+	afterFirstBeacon: function() {
+		BOOMR_OPT_OUT();
+	}
+});
+</script>
+<%= footer %>

@@ -1,0 +1,22 @@
+<%= header %>
+<script>
+/*eslint-disable no-unused-vars*/
+window.BOOMR_CONSENT_CONFIG = {
+	enabled: true,
+	optInRequired: true
+};
+
+</script>
+<%= consentInlinePlugin %>
+<%= boomerangScript %>
+<script>
+BOOMR_OPT_IN();
+</script>
+<script src="03-opt-in-before-page-ready.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	site_domain: document.domain,
+	testAfterOnBeacon: true
+});
+</script>
+<%= footer %>

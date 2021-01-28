@@ -1,0 +1,133 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on: [push, pull_request]
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint
+
+  unit-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: echo "127.0.0.1 boomerang-test.local" | sudo tee -a /etc/hosts
+      - run: echo "127.0.0.1 boomerang-test2.local" | sudo tee -a /etc/hosts
+      - run: npm run unit-test
+
+  e2e-test-1:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    env:
+      CI_NODE_INDEX: 0
+      CI_NODE_TOTAL: 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: echo "127.0.0.1 boomerang-test.local" | sudo tee -a /etc/hosts
+      - run: echo "127.0.0.1 boomerang-test2.local" | sudo tee -a /etc/hosts
+      - run: npm run e2e-test
+
+  e2e-test-2:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    env:
+      CI_NODE_INDEX: 1
+      CI_NODE_TOTAL: 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: echo "127.0.0.1 boomerang-test.local" | sudo tee -a /etc/hosts
+      - run: echo "127.0.0.1 boomerang-test2.local" | sudo tee -a /etc/hosts
+      - run: npm run e2e-test
+
+  e2e-test-3:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    env:
+      CI_NODE_INDEX: 2
+      CI_NODE_TOTAL: 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: echo "127.0.0.1 boomerang-test.local" | sudo tee -a /etc/hosts
+      - run: echo "127.0.0.1 boomerang-test2.local" | sudo tee -a /etc/hosts
+      - run: npm run e2e-test
+
+  e2e-test-4:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    env:
+      CI_NODE_INDEX: 3
+      CI_NODE_TOTAL: 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: echo "127.0.0.1 boomerang-test.local" | sudo tee -a /etc/hosts
+      - run: echo "127.0.0.1 boomerang-test2.local" | sudo tee -a /etc/hosts
+      - run: npm run e2e-test
+
+  e2e-test-5:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    env:
+      CI_NODE_INDEX: 4
+      CI_NODE_TOTAL: 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: echo "127.0.0.1 boomerang-test.local" | sudo tee -a /etc/hosts
+      - run: echo "127.0.0.1 boomerang-test2.local" | sudo tee -a /etc/hosts
+      - run: npm run e2e-test

@@ -1,0 +1,61 @@
+<%= header %>
+<script>
+// polyfill / overwrite PO for testing
+window.PerformanceObserver = function(callback) {
+	window.POs = window.POs || {};
+
+	return {
+		entryTypes: undefined,
+		observe: function(config) {
+			this.type = config.type;
+			window.POs[this.type] = this;
+		},
+		trigger: function(data) {
+			callback(data);
+		}
+	};
+};
+
+// polyfill EventTiming
+window.PerformanceEventTiming = {};
+</script>
+<%= boomerangScript %>
+<script src="00-basic.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: true,
+	EventTiming: {
+		enabled: true
+	}
+});
+
+// trigger some events
+window.POs["first-input"].trigger({
+	getEntries: function() {
+		return [{
+			entryType: "first-input",
+			startTime: 100,
+			duration: 900,
+			processingStart: 150,
+			processingEnd: 1000,
+			cancelable: false
+		}];
+	}
+});
+
+window.POs.event.trigger({
+	getEntries: function() {
+		return [{
+			name: "click",
+			entryType: "event",
+			startTime: 1000,
+			duration: 50,
+			processingStart: 1000,
+			processingEnd: 1050,
+			cancelable: false
+		}];
+	}
+});
+</script>
+<img src="/delay?delay=5000&file=/assets/img.jpg" />
+<%= footer %>

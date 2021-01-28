@@ -1,0 +1,25 @@
+<%= header %>
+<%= boomerangScript %>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: true,
+	Continuity: {
+		enabled: true
+	}
+});
+</script>
+<script src="39-pointerdown.js" type="text/javascript"></script>
+<script>
+	// fire pointerdown event
+	var pd = document.createEvent("Event");
+	pd.initEvent("pointerdown", true, true);
+	window.dispatchEvent(pd);
+
+	// followed by pointerup event in 30ms
+	var pu = document.createEvent("Event");
+	pu.initEvent("pointerup", true, true);
+	setTimeout(function(){
+		window.dispatchEvent(pu);
+	}, 5);
+</script>
+<%= footer %>

@@ -1,0 +1,56 @@
+<%= header %>
+<script src="52-xhr-response-url.js" type="text/javascript"></script>
+<%= boomerangScript %>
+<script>
+	var t = BOOMR_test;
+	BOOMR_test.init({
+		testAfterOnBeacon: BOOMR.plugins.AutoXHR ? (t.isFetchApiSupported() ? 5 : 3) : 1,
+		instrument_xhr: true,
+		autorun: true,
+		AutoXHR: {
+			monitorFetch: true,
+			alwaysSendXhr: true
+		},
+		afterFirstBeacon:
+			function() {
+				if (!BOOMR.plugins.AutoXHR) {
+					return;
+				}
+
+				var num = 0;
+				var arr = [
+					function() {
+						var xhr = new XMLHttpRequest();
+						xhr.open("GET", "/302?to=/blackhole/test");
+						xhr.send(null);
+					},
+					function() {
+						var xhr = new XMLHttpRequest();
+						xhr.open("GET", "/blackhole");
+						xhr.send(null);
+					}
+				];
+
+				if (t.isFetchApiSupported()) {
+					arr.push(function() {
+						fetch("/302?to=/blackhole/test");
+					});
+					arr.push(function() {
+						fetch("/blackhole");
+					});
+				}
+
+				function sendBeacon() {
+					if (num < arr.length) {
+						arr[num]();
+						num++;
+					}
+				}
+
+				BOOMR.subscribe("beacon", sendBeacon);
+
+				sendBeacon();
+			}
+	});
+</script>
+<%= footer %>

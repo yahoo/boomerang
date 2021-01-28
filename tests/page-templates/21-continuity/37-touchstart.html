@@ -1,0 +1,18 @@
+<%= header %>
+<%= boomerangScript %>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: true,
+	Continuity: {
+		enabled: true
+	}
+});
+</script>
+<script src="37-touchstart.js" type="text/javascript"></script>
+<script>
+	// fire touchstart event
+	var ts = document.createEvent("Event");
+	ts.initEvent("touchstart", true, true);
+	window.dispatchEvent(ts);
+</script>
+<%= footer %>

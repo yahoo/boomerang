@@ -1,0 +1,18 @@
+<%= header %>
+<script>
+/* eslint-disable */
+window.BOOMR_CONSENT_CONFIG = {
+	enabled: true
+};
+</script>
+<%= consentInlinePlugin %>
+<script>
+var BOOMERANG_LOADER_WRAPPER = function() {
+	<%= boomerangSnippetNoScript %>
+}
+</script>
+<script src="01-opt-in-origin-injected-loader-wrapper.js" type="text/javascript"></script>
+<script>
+BOOMR_test.runTests();
+</script>
+<%= footer %>

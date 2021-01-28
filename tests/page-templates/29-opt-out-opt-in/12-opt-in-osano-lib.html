@@ -1,0 +1,65 @@
+<%= header %>
+<link rel="stylesheet" href="../../vendor/cookieconsent/build/cookieconsent.min.css" />
+<script src="../../vendor/cookieconsent/build/cookieconsent.min.js"></script>
+
+<script>
+// Setup Osano Cookie popup
+function onCookieConsentChange(consent) {
+	if (consent === "allow") {
+		BOOMR_OPT_IN();
+	}
+}
+
+window.addEventListener("load", function() {
+	window.cookieconsent.initialise({
+		"type": "opt-in",
+		"content": {
+			"href": "https://www.example.com/policies/"
+		},
+		onInitialise: onCookieConsentChange,
+		onStatusChange: onCookieConsentChange,
+		onRevokeChoice: onCookieConsentChange
+	});
+});
+</script>
+<script>
+/*eslint-disable no-unused-vars*/
+window.BOOMR_CONSENT_CONFIG = {
+	enabled: true,
+	optInRequired: true
+};
+</script>
+
+<script>
+try {
+	var clickEvent = new MouseEvent("click", {
+		"view": window,
+		"bubbles": true,
+		"cancelable": true
+	});
+}
+catch (e) {
+	window.cannotCreateMouseEvent = true;
+}
+</script>
+<%= consentInlinePlugin %>
+<%= boomerangScript %>
+<script src="12-opt-in-osano-lib.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	site_domain: document.domain,
+	testAfterOnBeacon: false,
+	onBoomerangLoaded: function() {
+		BOOMR.subscribe("page_ready", function() {
+			setTimeout(function() {
+				document.getElementsByClassName("cc-allow")[0].dispatchEvent(clickEvent);
+
+				setTimeout(function() {
+					BOOMR_test.runTests();
+				}, 500);
+			}, 300);
+		});
+	}
+});
+</script>
+<%= footer %>

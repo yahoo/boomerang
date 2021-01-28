@@ -1,0 +1,27 @@
+<%= header %>
+<script>
+/*eslint-disable no-unused-vars*/
+document.cookie = ["BOOMR_CONSENT=\"opted-out\"", "path=/", "domain=" + location.hostname].join("; ");
+
+window.BOOMR_CONSENT_CONFIG = {
+	enabled: true,
+	optInRequired: true
+};
+</script>
+<%= consentInlinePlugin %>
+<%= boomerangScript %>
+<script src="07-opt-in-after-previous-opt-out.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	site_domain: document.domain,
+	testAfterOnBeacon: false,
+	onBoomerangLoaded: function() {
+		BOOMR.subscribe("page_ready", function() {
+			setTimeout(function() {
+				BOOMR_test.runTests();
+			}, 300);
+		});
+	}
+});
+</script>
+<%= footer %>

@@ -1,0 +1,12 @@
+<%= header %>
+<%= boomerangScript %>
+<script src="09-none-secure-attribute-in-current-window.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: 1,
+	site_domain: document.domain,
+	same_site_cookie: "None",
+	secure_cookie: true
+});
+</script>
+<%= footer %>

@@ -1,0 +1,31 @@
+<%= header %>
+<script>
+/*eslint-disable no-unused-vars*/
+window.BOOMR_CONSENT_CONFIG = {
+	enabled: true
+};
+</script>
+<%= consentInlinePlugin %>
+<%= boomerangScript %>
+<script src="13-opt-out-no-cookies-after-init-reload.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	site_domain: document.domain,
+	testAfterOnBeacon: false,
+	onBoomerangLoaded: function() {
+		BOOMR.subscribe("page_ready", function() {
+			BOOMR_OPT_OUT();
+
+			setTimeout(function() {
+				// Re-init Boomerang
+				BOOMR.init();
+
+				setTimeout(function() {
+					BOOMR_test.runTests();
+				}, 500);
+			}, 100);
+		});
+	}
+});
+</script>
+<%= footer %>

@@ -1,0 +1,3 @@
+<script>
+<%= consentInlinePluginNoScriptMin %>
+</script>

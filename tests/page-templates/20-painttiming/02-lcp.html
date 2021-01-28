@@ -1,0 +1,17 @@
+<%= header %>
+<!-- add an image so the screen is painted before Boomerang loads -->
+<img src="/delay?delay=100&amp;file=/assets/img.jpg&amp;id=100" style="width:100px;"/>
+<%= boomerangSnippet %>
+<img src="/delay?delay=1000&amp;file=/assets/img.jpg&amp;id=1000" style="width:1000px;"/>
+<img src="/delay?delay=2000&amp;file=/assets/img.jpg&amp;id=2000" style="width:2000px;"/>
+<script src="02-lcp.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	PaintTiming: {
+		enabled: true
+	},
+	testAfterOnBeacon: true
+});
+</script>
+<script src="/delay?delay=2500&amp;file=/assets/blank.js"></script>
+<%= footer %>

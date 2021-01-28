@@ -1,0 +1,21 @@
+<%= header %>
+<%= boomerangScript %>
+<script src="15-cookie-setting.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: false,
+	site_domain: document.domain,
+	afterFirstBeacon: function() {
+		// fake the unload
+		setTimeout(function() {
+			BOOMR.fireEvent("page_unload", {});
+		}, 100);
+
+		// run the tests
+		setTimeout(function() {
+			BOOMR_test.runTests();
+		}, 1000);
+	}
+});
+</script>
+<%= footer %>

@@ -1,0 +1,32 @@
+<%= header %>
+<%= continuitySnippet %>
+<%= boomerangScript %>
+<!-- trigger First Paint -->
+<h1>34-keep-going-api-beacon</h1>
+<!-- before this delayed image -->
+<img src="/delay?delay=5000&amp;file=assets/img.jpg"/>
+<script src="34-keep-going-api-beacon.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: true,
+	Continuity: {
+		enabled: true,
+		waitAfterOnload: 3000
+	},
+	onBoomerangLoaded: function() {
+		// Force another beacon type to go out
+		// send the beacon data to the specified URL
+		BOOMR.sendBeaconData({
+			"http.initiator": "api_custom_metric",
+			n: 1,
+			v: BOOMR.version,
+			pid: "abcd1234",
+			"h.key": BOOMR.getVar("h.key"),
+			"h.d": BOOMR.getVar("h.d"),
+			"h.cr": BOOMR.getVar("h.cr"),
+			"h.t": BOOMR.getVar("h.t")
+		});
+	}
+});
+</script>
+<%= footer %>

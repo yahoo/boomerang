@@ -1,0 +1,29 @@
+<%= header %>
+<script>
+/*eslint-disable no-unused-vars*/
+window.BOOMR_CONSENT_CONFIG = {
+	enabled: true,
+	optInRequired: true
+};
+</script>
+<%= consentInlinePlugin %>
+<%= boomerangScript %>
+<script src="04-opt-in-after-page-ready.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	site_domain: document.domain,
+	testAfterOnBeacon: false,
+	onBoomerangLoaded: function() {
+		BOOMR.subscribe("page_ready", function() {
+			setTimeout(function() {
+				BOOMR_OPT_IN();
+
+				setTimeout(function() {
+					BOOMR_test.runTests();
+				}, 500);
+			}, 100);
+		});
+	}
+});
+</script>
+<%= footer %>

@@ -1,0 +1,21 @@
+<%= header %>
+<%= boomerangScript %>
+<script src="42-keydown-cancellable-false.js" type="text/javascript"></script>
+<script>
+BOOMR_test.init({
+	testAfterOnBeacon: true,
+	Continuity: {
+		enabled: true
+	}
+});
+
+var ev = document.createEvent("Event");
+ev.initEvent("keydown", true, false);
+ev.keyCode = 27;
+
+// ESC key 3x
+document.dispatchEvent(ev);
+document.dispatchEvent(ev);
+document.dispatchEvent(ev);
+</script>
+<%= footer %>
